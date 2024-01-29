@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ZIM js Example</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <script src="https://zimjs.org/cdn/1.3.4/createjs.js"></script>
+    <script src="https://zimjs.org/cdn/016/zim_min.js"></script>
+    <style>
+      #topContainer {
+        width: 100%;
+        height: 80px; /* or any height you want */
+        background-color: #ccc; /* or any color you want */
+      }
+      #pageContainer {
+        display: flex;
+        width: 100%;
+        height: 100vh;
+      }
+      #customizer {
+        flex: 1;
+        border: 3px solid #ccc;
+      }
+      #cardDisplay {
+        flex: 2;
+        border: 3px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="topContainer"></div>
+    <div id="pageContainer">
+      <div id="customizer"></div>
+      <div id="cardDisplay">
+        <div id="cardContainer"></div>
+      </div>
+    </div>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

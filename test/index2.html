@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-GSHN2BZVKW"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-GSHN2BZVKW");
+    </script>
+    <meta charset="utf-8" />
+    <title>
+      ZIM BITS - Two Canvases for JavaScript HTML 5 Canvas and CreateJS - Tips,
+      Techniques and Tutorials
+    </title>
+
+    <!-- Welcome to ZIM at https://zimjs.com - Code Creativity!              	        -->
+    <!-- ZIM runs on the HTML Canvas powered by JavaScript and CreateJS https://createjs.com -->
+    <!-- Founded by Inventor Dan Zen - http://danzen.com - Canadian New Media Award Winner 	-->
+    <!-- ZIM is free to use. You can donate to help improve ZIM at http://zimjs.com/donate 	-->
+
+    <script src="https://zimjs.org/cdn/1.3.4/createjs.js"></script>
+    <script src="https://zimjs.org/cdn/01/zim_min.js"></script>
+    <!-- use zimjs.com/distill for minified individual functions! -->
+
+    <script src="https://zimjs.com/bits/footer10.js"></script>
+    <!-- you will not need this -->
+
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+        background-color: #eee;
+      }
+
+      #outer {
+        position: relative;
+        padding: 0px;
+      }
+      #one {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        background-color: #333;
+        display: inline-block;
+      }
+      #two {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        left: 0px;
+        display: inline-block;
+      }
+
+      main {
+        width: 200px;
+        margin: 0px auto;
+      }
+      nav,
+      footer {
+        width: 100%;
+        padding: 20px 0px;
+        text-align: center;
+      }
+      a {
+        outline: none;
+      }
+      footer a {
+        font-family: Courier New;
+        padding: 5px 8px;
+        background-color: #ddd;
+        border: dashed thin #666;
+        text-decoration: none;
+        color: #666;
+      }
+      footer a:hover {
+        background-color: #fff;
+      }
+      footer {
+        margin-bottom: 30px;
+      }
+    </style>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", function (e) {
+        // make sure tag is loaded!
+
+        // SCALING OPTIONS
+        // scaling can have values as follows with full being the default
+        // FIT	sets canvas and stage to dimensions and scales to fit inside window size
+        // FILL	sets canvas and stage to dimensions and scales to fit outside window size
+        // FULL	sets stage to window size with no scaling
+        // "tagID"	add canvas to HTML tag of ID - set to dimensions if provided - no scaling
+
+        let scaling = "one"; // for inline canvas set scaling to tagID
+        // optional - can remove dimensions to set stage to tag dimensions
+        // then make sure to give tag dimensions in pixels, percentage, etc.
+        // Frame will place a canvas there an not scale the canvas
+        // so you would then scale within the code if desired
+        // see https://zimjs.com/F.html and Docs for more
+
+        // ZIM BITS - Two Canvases (2016 - updated 2022)
+
+        // sometimes we want two canvases like the current ZIM home page
+        // there is one canvas for the interactive logo
+        // and another canvas for the happy sun face example
+
+        // STEPS
+        // 1. make div tags to hold the two canvases (or other types of tags - but NOT canvas tags)
+        // 2. pass the name of the tag and the dimensions for the canvas to ZIM Frame
+        // 3. add things to the stage, etc.
+        // 4. use ZIM Frame to add another canvas along with nextFrame parameter set to first frame
+        // 5. add things to the second stage, etc.
+
+        // STEP 1 is down below in the HTML code
+
+        // 2. pass the name of the tag and the dimensions for the canvas to ZIM Frame
+        // ZIM Frame makes the canvas for you so do not make a canvas tag yourself - just a holder for the canvas
+        // We are given F, S, W, H for the first frame made (unless setDefault() is called on a different frame)
+        // So when we make the second frame we collect the references for that frame, stage, width, height in the ready2 parameters
+
+        // just for reference, ZIM Frame will make canvases with the IDs of oneCanvas and twoCanvas
+        // as we passed in one and two as the holder tag names (so it appends the word Canvas)
+        // if we used fit, outside or full instead of a tag name then it would set the canvas to an id of myCanvas
+        // you can override this with the canvasName parameter in ZIM Frame
+
+        const width = 200;
+        const height = 200;
+        new Frame(scaling, width, height, null, null, ready);
+        function ready() {
+          zog("ready from ZIM Frame"); // logs in console (F12 - choose console)
+          // given F (Frame), S (Stage), W (width), H (height)
+
+          new Circle(60, blue) // use chaining so do not end statement
+            .center() // both centers and does addChild
+            .drag(); // will not work unless other frame has nextFrame parameter set to this frame
+        } // end of ready
+
+        // 4. use ZIM Frame to add another canvas (note the two different variables for frame)
+
+        scaling = "two";
+        new Frame({
+          scaling: scaling,
+          width: width,
+          height: height,
+          ready: ready2,
+          nextFrame: F,
+        });
+        function ready2(F2, S2, W2, H2) {
+          zog("ready2 from ZIM Frame"); // logs in console (F12 - choose console)
+          // collect frame specific parameters
+
+          const square = new Rectangle(100, 100, yellow)
+            .center(S2) // must add stage otherwise adds to default stage (the first stage)
+            .drag();
+
+          timeout(1, function () {
+            // objects can be moved from one stage to another
+            // we have no refeference to the circle in frame1 due to JavaScript scope
+            // but we could have declared the circle variable outside the frame function
+            // then we could just use circle.addTo()
+            // but here we grab the circle using getChildAt()
+            S.getChildAt(0).addTo(S2); // this frame's stage
+            square.addTo(S); // add this square to the other frame's stage
+            S.update(); // update the stages
+            S2.update();
+          });
+        } // end of ready
+      }); // end of dom loaded
+    </script>
+
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+  </head>
+
+  <body>
+    <main>
+      <nav>
+        <a href="https://zimjs.com/bits.html#two">
+          <img src="https://zimjs.com/images/zimbits.png"
+        /></a>
+      </nav>
+
+      <!-- 1. make div tags to hold the two canvases (or other types of tags - but NOT canvas tags) -->
+      <div id="outer">
+        <div id="one"></div>
+        <div id="two"></div>
+      </div>
+    </main>
+  </body>
+</html>
