@@ -1,0 +1,44 @@
+{
+  "games": [
+    {
+      "gameTitle": "Game One",
+      "trophyName": "First Challenge",
+      "username": "playerOne",
+      "rarity": "rare",
+      "date": "2022-01-15",
+      "imageUrl": "./images/game1.png"
+    },
+    {
+      "gameTitle": "Game Two",
+      "trophyName": "Second Challenge",
+      "username": "playerTwo",
+      "rarity": "Common",
+      "date": "2023-10-15",
+      "imageUrl": "./images/game2.png"
+    },
+    {
+      "gameTitle": "Game Three",
+      "trophyName": "Third Challenge",
+      "username": "playerThree",
+      "rarity": "Uncommon",
+      "date": "2024-05-20",
+      "imageUrl": "./images/game3.png"
+    },
+    {
+      "gameTitle": "Game Four",
+      "trophyName": "Fourth Challenge",
+      "username": "playerFour",
+      "rarity": "Common",
+      "date": "2025-12-31",
+      "imageUrl": "./images/game4.png"
+    },
+    {
+      "gameTitle": "Game Five",
+      "trophyName": "Fifth Challenge",
+      "username": "playerFive",
+      "rarity": "Legendary",
+      "date": "2026-07-10",
+      "imageUrl": "./images/game5.png"
+    }
+  ]
+}

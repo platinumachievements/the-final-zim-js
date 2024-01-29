@@ -1,62 +1,129 @@
 window.addEventListener("DOMContentLoaded", (event) => {
-  const topBarArea = document.getElementById("topContainer");
-  const topContainerFrame = new Frame({
-    scaling: "topContainer",
-    width: topBarArea.clientWidth,
-    height: topBarArea.clientHeight,
+  const page = document.getElementById("pageContainer");
+  const fullPageFrame = new Frame({
+    scaling: FIT,
+    width: 1024,
+    height: 768,
     color: grey,
     outerColor: purple,
-    ready: topFrame,
+    ready: pageFrame,
   });
 
-  const customizerArea = document.getElementById("customizer");
-  const customizerFrame = new Frame({
-    scaling: "customizer",
-    width: customizerArea.clientWidth,
-    height: customizerArea.clientHeight,
-    color: green,
-    outerColor: blue,
-    ready: customFrame,
-  });
+  function pageFrame() {
+    zog("ready from pageFrame");
+    fetchGame();
+    //-------------initialisation------------------------------------>
 
-  const cardDisplayArea = document.getElementById("cardDisplay");
-  const cardDisplay = new Frame({
-    scaling: "cardDisplay",
-    width: cardDisplayArea.clientWidth,
-    height: cardDisplayArea.clientHeight,
-    color: red,
-    outerColor: yellow,
-    assets: ["game1.png"],
-    ready: cardFrame,
-  });
+    //let gameData = [];
 
-  function topFrame() {
-    zog("ready from ZIM Frame1");
+    //-------------Container Setup------------------------------------>
 
-    let cardContainer = createCardContainer("game1.png", cardDisplay.stage);
-    //cardContainer.pos(cardDisplay.width / 2, cardDisplay.height / 2, CENTER);
-  }
+    const customContainer = new Container(400, 768)
+      .addTo()
+      //.mov(100, 100)
+      .pos({ horizontal: LEFT, vertical: TOP })
+      //.centerReg()
+      .outline();
 
-  function customFrame(F2, S2, W2, H2) {
-    zog("ready from ZIM Frame2");
+    const cardContainer = new Container(400, 768)
+      .addTo()
+      //.mov(100, 100)
+      .pos({ horizontal: CENTER, vertical: TOP })
+      //.centerReg()
+      .outline();
 
-    let cardContainer = createCardContainer("game1.png", cardDisplay.stage);
-    //cardContainer.pos(cardDisplay.width / 2, cardDisplay.height / 2, CENTER);
-  }
+    const displayContainer = new Container(400, 768)
+      .addTo()
+      //.mov(100, 100)
+      .pos({ horizontal: RIGHT, vertical: TOP })
+      //.centerReg()
+      .outline();
 
-  function cardFrame(F3, S3, W3, H3) {
-    zog("ready from ZIM Frame3");
+    const cardHolder = new Container(822, 1122)
+      .addTo()
+      .sca(0.5)
+      //.mov(100, 100)
+      .centerReg({ container: cardContainer })
+      //.centerReg()
+      .outline();
 
-    let cardContainer = createCardContainer("game1.png", cardDisplay.stage);
-    //cardContainer.pos(cardDisplay.width / 2, cardDisplay.height / 2, CENTER);
+    //---------------End of Containers---------------------------------->
+
+    //------------------Functions------------------------------------>
+    let gameData = [];
+
+    function fetchGame() {
+      return fetch("games.json")
+        .then((response) => response.json())
+        .then((data) => {
+          gameData = data;
+          createContent();
+        })
+        .catch((error) => {
+          console.error("Error loading JSON:", error);
+          throw error;
+        });
+    }
+
+    function createContent() {
+      // Check if gameData is an array and has elements
+      if (!Array.isArray(gameData.games) || gameData.games.length === 0) {
+        console.error("No game data available or data is not an array");
+        return;
+      }
+
+      console.log("Creating game elements");
+      console.log("Number of games:", gameData.games.length);
+    }
+
+    //------------------End of Functions------------------------------------>
+
+    const backgroundImage = new Pic(gameData.games.imageUrl).addTo(cardHolder);
+    const templateImage = new Pic("template.png").addTo(cardHolder);
+    const gameTitle = new Label({
+      text: gameData.games.gameTitle,
+      size: 70,
+      color: white,
+      labelWidth: 455,
+      labelHeight: 80,
+      maxSize: 100,
+      align: CENTER,
+      valign: CENTER,
+    })
+      .addTo(cardHolder)
+      .centerReg()
+      .loc({ x: 460, y: 185 })
+      .outline();
+
+    const trophyName = new Label({
+      text: gameData.games.trophyName,
+      size: 100,
+      color: white,
+      labelWidth: 360,
+      labelHeight: 60,
+      maxSize: 60,
+      align: CENTER,
+      valign: CENTER,
+    })
+      .addTo(cardHolder)
+      .centerReg()
+      .loc({ x: 380, y: 928 })
+      .outline();
+
+    const grid = new Grid(cardHolder);
+
+    const circle = new Circle(50, red)
+      .center({ container: customContainer })
+      .drag({ boundary: customContainer });
+
+    const circle1 = new Circle(50, blue)
+      .center({ container: cardContainer })
+      .drag({ boundary: cardContainer });
+
+    const circle2 = new Circle(50, green)
+      .center({ container: displayContainer })
+      .drag({ boundary: displayContainer });
+
+    S.update();
   }
 });
-
-function createCardContainer(file, stage) {
-  const container = new Pic({ file }).center();
-
-  // Add the container to the frame
-  container.addTo(stage);
-
-  return container;
-}
