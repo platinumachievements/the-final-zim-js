@@ -1,7 +1,7 @@
 window.addEventListener("DOMContentLoaded", (event) => {
   const page = document.getElementById("pageContainer");
   const fullPageFrame = new Frame({
-    scaling: FILL,
+    scaling: FIT,
     width: 1024,
     height: 768,
     color: grey,
@@ -11,24 +11,24 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
   function pageFrame() {
     zog("ready from pageFrame");
+    //const grid1 = new Grid();
     fetchGame();
 
     //-------------Container Setup------------------------------------>
-
-    const customContainer = new Container(400, 768)
+    const customContainer = new Container(300, 768)
       .addTo()
       .pos({ horizontal: LEFT, vertical: TOP })
       .outline();
 
-    const cardContainer = new Container(400, 768)
-      .addTo()
-      .pos({ horizontal: CENTER, vertical: TOP })
-      .outline();
-
-    const displayContainer = new Container(400, 768)
+    const cardContainer = new Container(700, 768)
       .addTo()
       .pos({ horizontal: RIGHT, vertical: TOP })
       .outline();
+
+    // const displayContainer = new Container(400, 768)
+    //   .addTo()
+    //   .pos({ horizontal: RIGHT, vertical: TOP })
+    //   .outline();
 
     const cardHolder = new Container(822, 1122)
       .addTo()
@@ -178,8 +178,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
         .loc({ x: 520, y: 850 })
         .outline();
     }
-
     //------------------End of Functions------------------------------------>
+    //------------------Menu------------------------------------>
+
+    //------------------End of Menu------------------------------------>
 
     const grid = new Grid(cardHolder);
 
